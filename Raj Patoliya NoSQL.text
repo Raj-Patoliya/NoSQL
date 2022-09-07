@@ -1,0 +1,85 @@
+1. Retrieve the documents in country collection where population is greater than 1 lakh.
+-----------------------------------------------------------------------------------------
+db.Country.find({population:{$gt:100000}})
+{ _id: '62e5288f4d0440f7811d1928',
+  name: 'United States',
+  capital: 'Washington, D.C.',
+  continent: 'North America',
+  language: 'English',
+  population: 328239523 }
+{ _id: '62e5288f4d0440f7811d192b',
+  name: 'Australia',
+  capital: 'Canberra',
+  continent: 'Australia',
+  language: 'English',
+  population: 25681300 }
+{ _id: '62e5288f4d0440f7811d192c',
+  name: 'Japan',
+  capital: 'Tokyo',
+  continent: 'Asia',
+  language: 'Japanese',
+  population: 125960000 }
+{ _id: '62e5288f4d0440f7811d192d',
+  name: 'Brazil',
+  capital: 'Brasília',
+  continent: 'South America',
+  language: 'Portuguese',
+  population: 210147125 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2. Retrieve documents where language is English and continent is Asia.
+-----------------------------------------------------------------------
+db.Country.find({$and:[{continent:"Asia"},{language:'English'}]})
+
+{ _id: ObjectId("63183b81bf016dbc654cb903"),
+  name: 'Bangladesh',
+  capital: 'Dhaka',
+  continent: 'Asia',
+  language: 'English',
+  population: 15030 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+3.Retrieve documents where capital is “Washington D.C.” and population is either 2 lakhs or 1 lakh
+---------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{capital:'Washington D.C.'},{$or:[{population:328239523},{population:200000}]}]})
+{ _id: '62e5288f4d0440f7811d1928',
+  name: 'United States',
+  capital: 'Washington D.C.',
+  continent: 'North America',
+  language: 'English',
+  population: 328239523 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+4. Retrieve documents where country is Australia and population is 125960000
+---------------------------------------------------------------------------------------------------
+db.Country.find({$or:[{population:125960000},{name:'Australia'}]})
+{ _id: '62e5288f4d0440f7811d192b',
+  name: 'Australia',
+  capital: 'Canberra',
+  continent: 'Australia',
+  language: 'English',
+  population: 25681300 }
+{ _id: '62e5288f4d0440f7811d192c',
+  name: 'Japan',
+  capital: 'Tokyo',
+  continent: 'Asia',
+  language: 'Japanese',
+  population: 125960000 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+5. Retrieve a document where country name is Australia and not United States.
+---------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{name:'Australia'},{name:{$nin:['United States']}}]})
+{ _id: '62e5288f4d0440f7811d192b',
+  name: 'Australia',
+  capital: 'Canberra',
+  continent: 'Australia',
+  language: 'English',
+  population: 25681300 }
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+6. Retrieve documents capital is Dubai and Language can be Arabic or English and name is UAE.
+---------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{capital:'Dubai'},{$or:[{language:{$eq:'Arabic'}},{language:{$eq:'English'}}]},{name:'UAE'}]})
+{ _id: ObjectId("63184996bf016dbc654cb904"),
+  name: 'UAE',
+  capital: 'Dubai',
+  continent: 'Asia',
+  language: 'Arabic',
+  population: 365030 }
