@@ -38,18 +38,9 @@ db.Country.find({$and:[{continent:"Asia"},{language:'English'}]})
   population: 15030 }
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 3.Retrieve documents where capital is “Washington D.C.” and population is either 2 lakhs or 1 lakh
----------------------------------------------------------------------------------------------------
-db.Country.find({$and:[{capital:'Washington D.C.'},{$or:[{population:328239523},{population:200000}]}]})
-{ _id: '62e5288f4d0440f7811d1928',
-  name: 'United States',
-  capital: 'Washington D.C.',
-  continent: 'North America',
-  language: 'English',
-  population: 328239523 }
-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-4. Retrieve documents where country is Australia and population is 125960000
----------------------------------------------------------------------------------------------------
-db.Country.find({$or:[{population:125960000},{name:'Australia'}]})
+----------------Query:
+Set 2:Query:
+Set 2:{$or:[{population:125960000},{name:'Australia'}]})
 { _id: '62e5288f4d0440f7811d192b',
   name: 'Australia',
   capital: 'Canberra',
@@ -83,3 +74,173 @@ db.Country.find({$and:[{capital:'Dubai'},{$or:[{language:{$eq:'Arabic'}},{langua
   continent: 'Asia',
   language: 'Arabic',
   population: 365030 }
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*-*-*-*-*-*-*-*-*-*-*-*Query:
+Set 2:-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+{[{
+    name:"Handloom",
+    status:"A",
+    qty:256
+},{
+    name:"Clothes",
+    status:"D",
+    qty:26
+},{
+    name:"Footware",
+    status:"D",
+    qty:20
+},{
+    name:"Food",
+    status:"A",
+    qty:256
+},
+{
+    name:"Eyeware",
+    status:"A",
+    qty:120
+}]}
+
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+1. Retrieve from the inventory collection all documents where status equals “D”.
+---------------------------------------------------------------------------------------------------
+db.Inventory.find({status:{$eq:"D"}})
+{ _id: ObjectId("632177fe2fb96327c1210aad"),
+  name: 'Clothes',
+  status: 'D',
+  qty: 26 }
+{ _id: ObjectId("632177fe2fb96327c1210aae"),
+  name: 'Footware',
+  status: 'D',
+  qty: 20 }
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+2. Retrieve all documents in the inventory collection where status equals “A” or “D”.
+---------------------------------------------------------------------------------------------------
+db.Inventory.find({$or:[{status:{$eq:"D"}},{status:{$eq:"A"}}]})
+
+{ _id: ObjectId("632177fe2fb96327c1210aac"),
+  name: 'Handloom',
+  status: 'A',
+  qty: 256 }
+{ _id: ObjectId("632177fe2fb96327c1210aad"),
+  name: 'Clothes',
+  status: 'D',
+  qty: 26 }
+{ _id: ObjectId("632177fe2fb96327c1210aae"),
+  name: 'Footware',
+  status: 'D',
+  qty: 20 }
+{ _id: ObjectId("632177fe2fb96327c1210aaf"),
+  name: 'Food',
+  status: 'A',
+  qty: 256 }
+{ _id: ObjectId("632177fe2fb96327c1210ab0"),
+  name: 'Eyeware',
+  status: 'A',
+  qty: 120 }
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+3. Retrieve all documents in the inventory collection where status equals “A” & qty is less than ($lt) 30.
+-------------------------------------------------------------------------------------------------------------
+db.Inventory.find({$and:[{status:{$eq:"A"}},{qty:{$lt:30}}]})  
+{ _id: ObjectId("63217c1c2fb96327c1210ab1"),
+  name: 'HandWare',
+  status: 'A',
+  qty: 21 }
+
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+Query:
+Set 3:
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+
+1. Retrieve documents where capital is either “Washington D.C.” or “Italy”.
+-------------------------------------------------------------------------------------------------------------
+db.Country.find({capital:{$in:['Italy.','Washington, D.C.']}})
+{ _id: '62e5288f4d0440f7811d1928',
+  name: 'United States',
+  capital: 'Washington, D.C.',
+  continent: 'North America',
+  language: 'English',
+  population: 328239523 }
+{ _id: ObjectId("63217d772fb96327c1210ab2"),
+  name: 'Paris',
+  capital: 'Italy.',
+  continent: 'Europe',
+  language: 'French',
+  population: 125600 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+2. Retrieve all the documents where population is greater than 10 Lakhs and language is English or Japanese or Portuguese.
+--------------------------------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{population:{$gt:1000000}},{language:{$in:['Japanese','English','Portuguese']}}]})
+{ _id: '62e5288f4d0440f7811d1928',
+  name: 'United States',
+  capital: 'Washington, D.C.',
+  continent: 'North America',
+  language: 'English',
+  population: 328239523 }
+{ _id: '62e5288f4d0440f7811d192b',
+  name: 'Australia',
+  capital: 'Canberra',
+  continent: 'Australia',
+  language: 'English',
+  population: 25681300 }
+{ _id: '62e5288f4d0440f7811d192c',
+  name: 'Japan',
+  capital: 'Tokyo',
+  continent: 'Asia',
+  language: 'Japanese',
+  population: 125960000 }
+{ _id: '62e5288f4d0440f7811d192d',
+  name: 'Brazil',
+  capital: 'Brasília',
+  continent: 'South America',
+  language: 'Portuguese',
+  population: 210147125 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+3. Retrieve all the documents where population is less than 3 Crores and continent is not Asia or North America or South America.
+----------------------------------------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{population:{$lt:30000000}},{continent:{$nin:['Asia','North America','South America']}}]})
+{ _id: '62e5288f4d0440f7811d192b',
+  name: 'Australia',
+  capital: 'Canberra',
+  continent: 'Australia',
+  language: 'English',
+  population: 25681300 }
+{ _id: ObjectId("63217d772fb96327c1210ab2"),
+  name: 'Paris',
+  capital: 'Italy.',
+  continent: 'Europe',
+  language: 'French',
+  population: 125600 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+4. Retrieve the first document where language is Japanese and continent is Asia and Capital is not Tokyo
+----------------------------------------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{language:"Japanese"},{continent:'Asia'},{capital:{$nin:['Tokiyo']}}]})
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+5. Insert documents having one additional field called geoLocation having two fields like longitude and latitude.
+----------------------------------------------------------------------------------------------------------------------------------
+db.Country.insertOne({
+    name: "New Zealand",
+    capital: "Wellington",
+    continent: "Oceania ",
+    language: "English",
+    population: 44491724,
+    geoLocation:
+    {
+        longitude:40,
+        latitude: 174
+    }
+})
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
+6. Retrieve the name of county where longitude is 0 and less than 90 and latitude greater than 0 and less than 100.
+----------------------------------------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{longitude:{$gt:50}}]},{_id:0,name:1})
