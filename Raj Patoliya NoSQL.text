@@ -36,11 +36,21 @@ db.Country.find({$and:[{continent:"Asia"},{language:'English'}]})
   continent: 'Asia',
   language: 'English',
   population: 15030 }
+
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 3.Retrieve documents where capital is “Washington D.C.” and population is either 2 lakhs or 1 lakh
-----------------Query:
-Set 2:Query:
-Set 2:{$or:[{population:125960000},{name:'Australia'}]})
+---------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{capital:'Washington D.C.'},{$or:[{population:328239523},{population:200000}]}]})
+{ _id: '62e5288f4d0440f7811d1928',
+  name: 'United States',
+  capital: 'Washington D.C.',
+  continent: 'North America',
+  language: 'English',
+  population: 328239523 }
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+4. Retrieve documents where country is Australia and population is 125960000
+---------------------------------------------------------------------------------------------------
+db.Country.find({$or:[{population:125960000},{name:'Australia'}]})
 { _id: '62e5288f4d0440f7811d192b',
   name: 'Australia',
   capital: 'Canberra',
@@ -243,4 +253,13 @@ db.Country.insertOne({
 *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-
 6. Retrieve the name of county where longitude is 0 and less than 90 and latitude greater than 0 and less than 100.
 ----------------------------------------------------------------------------------------------------------------------------------
-db.Country.find({$and:[{longitude:{$gt:50}}]},{_id:0,name:1})
+db.Country.find({$and:[{"geoLocation.longitude":{$gt:0,$lt:90}},{"geoLocation.latitude":{$gt:0,$lt:200}}]},{name:1})
+{ _id: ObjectId("6321869e2fb96327c1210ab3"),
+  name: 'New Zealand' }
+
+*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
+7. Retrieve the geoLocation of countries where continent is “Oceania ” and language is “English” or “Hindi”
+--------------------------------------------------------------------------------------------------------
+db.Country.find({$and:[{language:{$in:['English','Hindi']}},{continent:"Oceania "}]},{geoLocation:1})
+{ _id: ObjectId("6321869e2fb96327c1210ab3"),
+  geoLocation: { longitude: 40, latitude: 174 } }
